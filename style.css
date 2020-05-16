@@ -1,13 +1,35 @@
-#grid{
-    display: grid;
-    width: 300px;
-    height: 300px;
-    grid-template-columns: repeat(3,100px);
-    border: 1px;
-    text-align: center;
-    column-gap: 5px;
+table{
+    width:100%;
+    border-collapse: collapse;
 }
-.cell{
-    border:1px;
+td{
+    width: 33.3%;
+    border:6px solid;
+    text-align: center;
+}
+td::after{
+    content:"";
+    display: block;
+    margin-top: 100%;
+}
+td:first-of-type{
+    border-left-color: transparent;
+    border-top-color: transparent;
+}
+td:nth-of-type(2) {
+    border-top-color: transparent;
+}
+  
+td:nth-of-type(3) {
+    border-right-color: transparent;
+    border-top-color: transparent;
+}
+  
+tr:nth-of-type(3) td {
+    border-bottom-color: transparent;
+}
+#container{
+    width:300px;
+    height: 300px;
 }
 
