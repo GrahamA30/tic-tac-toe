@@ -1,8 +1,8 @@
 const gameBoard = (() => {
     let board = [
-                    ["X","O","X"],
-                    ["O","","O"],
-                    ["O","","X"]
+                    ["X","",""],
+                    ["","X",""],
+                    ["X","O","O"]
                 ];
     const addMark = (player, row, col) => {
         if(isEmpty(row,col)) board[row][col] = player.getMark();
@@ -59,16 +59,39 @@ const gameBoard = (() => {
   })();
 
   const Player = (name, mark) => {
-      const getName = () => name;
-      const getMark = () => mark;
+    let turn = false;
+    const getName = () => name;
+    const getMark = () => mark;
+    const getTurn = () => turn;
+    const changeTurn = () => turn = !turn;
 
-      return{getName, getMark};
+    return{getName, getMark, getTurn, changeTurn};
   };
 
   const gameState = (() => {
     const displayWinner = (player) => console.log(player.getName());
+    const takeTurn = (player1, player2) =>{
+      
+    }
 
     return {
       displayWinner
+    };
+  })();
+
+  const displayController = (() => {
+    const cells = document.querySelectorAll('.cell');
+
+    const updateDisplay = () => {
+        cells.forEach(cell => {
+          let row = cell.getAttribute("data-row");
+          let col = cell.getAttribute("data-col");
+          let board = gameBoard.getBoard();
+          cell.innerHTML = board[row][col];
+        });
+    }
+
+    return {
+      updateDisplay
     };
   })();
