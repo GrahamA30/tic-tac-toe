@@ -1,17 +1,14 @@
 table{
-    width:100%;
+    width:300px;
+    height:300px;
     border-collapse: collapse;
 }
 td{
-    width: 33.3%;
+    width: 100px;
     border:6px solid;
     text-align: center;
 }
-td::after{
-    content:"";
-    display: block;
-    margin-top: 100%;
-}
+
 td:first-of-type{
     border-left-color: transparent;
     border-top-color: transparent;
