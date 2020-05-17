@@ -1,8 +1,8 @@
 const gameBoard = (() => {
     let board = [
-                    ["X","",""],
-                    ["","X",""],
-                    ["X","O","O"]
+                    ["","",""],
+                    ["","",""],
+                    ["","",""]
                 ];
     const addMark = (player, row, col) => {
         if(isEmpty(row,col)) board[row][col] = player.getMark();
@@ -54,7 +54,8 @@ const gameBoard = (() => {
     return {
       addMark,
       getBoard,
-      isThreeInRow
+      isThreeInRow,
+      isEmpty
     };
   })();
 
@@ -69,28 +70,52 @@ const gameBoard = (() => {
   };
 
   const gameState = (() => {
+    const player1 = Player("player1","X");
+    const player2 = Player("player2","O");
+    player1.changeTurn();
+
     const displayWinner = (player) => console.log(player.getName());
-    const takeTurn = (player1, player2) =>{
-      
+    const takeTurn = (row,col) =>{
+      if(gameBoard.isEmpty(row,col)){
+        if(player1.getTurn()){
+          gameBoard.addMark(player1,row,col);
+        }
+        else{
+          gameBoard.addMark(player2,row,col);
+        }
+        player1.changeTurn();
+        player2.changeTurn();
+      }
+      displayController.updateDisplay();
     }
 
     return {
-      displayWinner
+      displayWinner,
+      takeTurn
     };
   })();
 
   const displayController = (() => {
-    const cells = document.querySelectorAll('.cell');
+    const table = document.querySelector('#board');
+    const cells = document.querySelectorAll("td");
 
     const updateDisplay = () => {
-        cells.forEach(cell => {
-          let row = cell.getAttribute("data-row");
-          let col = cell.getAttribute("data-col");
-          let board = gameBoard.getBoard();
-          cell.innerHTML = board[row][col];
-        });
+        let board = gameBoard.getBoard();
+        for (let i = 0; i < table.rows.length; i++) {
+
+          let objCells = table.rows.item(i).cells;
+
+          for (let j = 0; j < objCells.length; j++) {
+              objCells.item(j).innerHTML = board[i][j];
+          }
+      }
     }
 
+    cells.forEach(cell => {
+      cell.addEventListener("click",() => {
+        gameState.takeTurn(cell.getAttribute("data-row"),cell.getAttribute("data-col"));
+      });
+    });
     return {
       updateDisplay
     };
