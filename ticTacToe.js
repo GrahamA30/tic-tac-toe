@@ -122,22 +122,27 @@ const gameBoard = (() => {
         else{
           gameBoard.addMark(player2,row,col);
         }
+        gameOver();
         player1.changeTurn();
         player2.changeTurn();
       }
-      gameOver();
       displayController.updateDisplay();
     }
 
     return {
       displayWinner,
-      takeTurn
+      takeTurn,
+      player1,
+      player2
     };
   })();
 
   const displayController = (() => {
     const table = document.querySelector('#board');
     const cells = document.querySelectorAll("td");
+
+    const score1 = document.querySelector("#score1");
+    const score2 = document.querySelector("#score2");
 
     const updateDisplay = () => {
         let board = gameBoard.getBoard();
@@ -149,6 +154,8 @@ const gameBoard = (() => {
               objCells.item(j).innerHTML = board[i][j];
           }
       }
+      score1.innerHTML = gameState.player1.getScore();
+      score2.innerHTML = gameState.player2.getScore();
     }
 
     cells.forEach(cell => {
