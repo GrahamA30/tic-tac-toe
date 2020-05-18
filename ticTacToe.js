@@ -189,7 +189,7 @@ const gameBoard = (() => {
       }
       score1.innerHTML = gameState.player1.getScore();
       score2.innerHTML = gameState.player2.getScore();
-      winner.innerHTML = gameState.getWinner()
+      winner.innerHTML = (gameState.getWinner() != "") ?`${gameState.getWinner()} wins`: "";
     }
 
     start.addEventListener("click", ()=>{
@@ -206,7 +206,6 @@ const gameBoard = (() => {
       });
     });
     return {
-      updateDisplay,
-      winner
+      updateDisplay
     };
   })();
