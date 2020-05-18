@@ -29,4 +29,18 @@ tr:nth-of-type(3) td {
     width:300px;
     height: 300px;
 }
-
+#players{
+    display: flex;
+    margin:20px;
+}
+.name{
+    padding-left:10px;
+}
+.score{
+    padding-left:10px;
+}
+.player{
+    display: flex;
+    font-size: 20px;
+    font-style: bold;
+}
