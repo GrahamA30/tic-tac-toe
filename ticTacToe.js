@@ -83,31 +83,42 @@ const gameBoard = (() => {
     const getName = () => name;
     const getMark = () => mark;
     const getTurn = () => turn;
+    const setTurn = (newTurn) => turn = newTurn;
     const changeTurn = () => turn = !turn;
     const addScore = () => score++;
 
 
-    return{getName, getMark, getTurn, changeTurn, getScore, addScore};
+    return{getName, getMark, getTurn, changeTurn, getScore, addScore, setTurn};
   };
 
   const gameState = (() => {
     const player1 = Player("player1","X");
     const player2 = Player("player2","O");
-    player1.changeTurn();
+    let winner = "";
+
+    player1.setTurn(true);
     
     let play = true;
 
-    const displayWinner = (player) => console.log(player.getName());
+    const newGame = () =>{
+      player1.setTurn(true);
+      player2.setTurn(false);
+      gameBoard.clearBoard();
+      play = true;
+      winner = "";
+    }
+
+    const getWinner = () => winner;
     const gameOver = () =>{
       if(gameBoard.isThreeInRow(player1)){
-        console.log(player1.getName());
+        winner = player1.getName();
         player1.addScore();
         play = false;
       }
       else if(gameBoard.isThreeInRow(player2)){
-        console.log(player2.getName());
+        winner = player2.getName();
         player2.addScore();
-        play = false;
+        play = false
       }
       else if (gameBoard.isFilled()){
         play = false;
@@ -123,15 +134,19 @@ const gameBoard = (() => {
           gameBoard.addMark(player2,row,col);
         }
         gameOver();
+   
+        displayController.updateDisplay();
+
         player1.changeTurn();
         player2.changeTurn();
       }
-      displayController.updateDisplay();
+
     }
 
     return {
-      displayWinner,
+      getWinner,
       takeTurn,
+      newGame,
       player1,
       player2
     };
@@ -143,6 +158,10 @@ const gameBoard = (() => {
 
     const score1 = document.querySelector("#score1");
     const score2 = document.querySelector("#score2");
+
+    const start = document.querySelector("#start");
+
+
 
     const updateDisplay = () => {
         let board = gameBoard.getBoard();
@@ -157,6 +176,11 @@ const gameBoard = (() => {
       score1.innerHTML = gameState.player1.getScore();
       score2.innerHTML = gameState.player2.getScore();
     }
+
+    start.addEventListener("click", ()=>{
+      gameState.newGame();
+      updateDisplay();
+    })
 
     cells.forEach(cell => {
       cell.addEventListener("click",() => {
