@@ -86,9 +86,10 @@ const gameBoard = (() => {
     const setTurn = (newTurn) => turn = newTurn;
     const changeTurn = () => turn = !turn;
     const addScore = () => score++;
+    const resetScore =() => score = 0;
 
 
-    return{getName, getMark, getTurn, changeTurn, getScore, addScore, setTurn};
+    return{getName, getMark, getTurn, changeTurn, getScore, addScore, setTurn, resetScore};
   };
 
   const gameState = (() => {
@@ -99,6 +100,17 @@ const gameBoard = (() => {
     player1.setTurn(true);
     
     let play = true;
+    const resetGame = () =>{
+      player1.setTurn(true);
+      player1.resetScore()
+
+      player2.setTurn(false);
+      player2.resetScore()
+
+      gameBoard.clearBoard();
+      play = true;
+      winner = "";
+    }
 
     const newGame = () =>{
       player1.setTurn(true);
@@ -147,6 +159,7 @@ const gameBoard = (() => {
       getWinner,
       takeTurn,
       newGame,
+      resetGame,
       player1,
       player2
     };
@@ -160,7 +173,7 @@ const gameBoard = (() => {
     const score2 = document.querySelector("#score2");
 
     const start = document.querySelector("#start");
-
+    const reset = document.querySelector("#reset");
 
 
     const updateDisplay = () => {
@@ -181,7 +194,10 @@ const gameBoard = (() => {
       gameState.newGame();
       updateDisplay();
     })
-
+    reset.addEventListener("click", ()=>{
+      gameState.resetGame();
+      updateDisplay();
+    })
     cells.forEach(cell => {
       cell.addEventListener("click",() => {
         gameState.takeTurn(cell.getAttribute("data-row"),cell.getAttribute("data-col"));
