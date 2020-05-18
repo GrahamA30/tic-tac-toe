@@ -93,8 +93,8 @@ const gameBoard = (() => {
   };
 
   const gameState = (() => {
-    const player1 = Player("player1","X");
-    const player2 = Player("player2","O");
+    const player1 = Player("Player1","X");
+    const player2 = Player("Player2","O");
     let winner = "";
 
     player1.setTurn(true);
@@ -175,6 +175,7 @@ const gameBoard = (() => {
     const start = document.querySelector("#start");
     const reset = document.querySelector("#reset");
 
+    const winner = document.querySelector("#winner");
 
     const updateDisplay = () => {
         let board = gameBoard.getBoard();
@@ -188,6 +189,7 @@ const gameBoard = (() => {
       }
       score1.innerHTML = gameState.player1.getScore();
       score2.innerHTML = gameState.player2.getScore();
+      winner.innerHTML = gameState.getWinner()
     }
 
     start.addEventListener("click", ()=>{
@@ -204,6 +206,7 @@ const gameBoard = (() => {
       });
     });
     return {
-      updateDisplay
+      updateDisplay,
+      winner
     };
   })();
